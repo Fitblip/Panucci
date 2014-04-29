@@ -11,12 +11,12 @@ def getStuff():
 	networkIn = c.list_metrics(metric_name="NetworkIn")[0]
 
 	end = datetime.datetime.now()
-	start = end - datetime.timedelta(hours=12)
+	start = end - datetime.timedelta(days=31)
 
 	derp = []
 
-	for item in networkIn.query(start,end,'Sum','Bytes'):
+	for item in networkIn.query(start,end,'Sum','Bytes',period=3600):
 		item['Timestamp'] = str(item['Timestamp'])
 		derp.append(item)
-
+	derp.sort(key=lambda r: r['Timestamp'])
 	return json.dumps(derp)
