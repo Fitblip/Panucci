@@ -1,0 +1,47 @@
+<html>
+	<head>
+	</head>
+
+	<body>
+		<div id="container" style="width:100%; height:400px;"></div>
+	</body>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src='https://code.highcharts.com/highcharts.js'></script>
+<script>
+var retdata;
+
+$.get("/info.json", function(data){
+	retdata = data
+})
+
+$('#container').highcharts({
+    chart: {
+        type: 'bar'
+    },
+    title: {
+        text: 'Fruit Consumption'
+    },
+    xAxis: {
+        categories: ['Apples', 'Bananas', 'Oranges']
+    },
+    yAxis: {
+        title: {
+            text: 'Fruit eaten'
+        }
+    },
+    series: [{
+        name: 'Jane',
+        data: [1, 0, 4]
+    }, {
+        name: 'John',
+        data: [5, 7, 3]
+    }]
+});
+
+    // $('#container').highcharts({
+    //     series: data
+    // });
+// })
+
+</script>
+</html>
