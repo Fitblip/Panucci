@@ -6,37 +6,65 @@
 		<div id="container" style="width:100%; height:400px;"></div>
 	</body>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
+	<script src="static/ta.js"></script>
 <script src='https://code.highcharts.com/highcharts.js'></script>
 <script>
-var retdata;
+function zip(arrayA, arrayB) {
+    var length = Math.min(arrayA.length, arrayB.length);
+    var result = [];
+    for (var n = 0; n < length; n++) {
+        result.push([arrayA[n], arrayB[n]]);
+    }
+    return result;
+}
 
+var obj = {}
 $.get("/info.json", function(data){
-	retdata = data
-})
 
-$('#container').highcharts({
-    chart: {
-        type: 'bar'
-    },
-    title: {
-        text: 'Fruit Consumption'
-    },
-    xAxis: {
-        categories: ['Apples', 'Bananas', 'Oranges']
-    },
-    yAxis: {
-        title: {
-            text: 'Fruit eaten'
-        }
-    },
-    series: [{
-        name: 'Jane',
-        data: [1, 0, 4]
-    }, {
-        name: 'John',
-        data: [5, 7, 3]
-    }]
-});
+//[{"Timestamp": "2014-04-28 15:05:00", "Sum": 16930.0, "Unit": "Bytes"}, {"Timestamp": "2014-04-28 18:25:00", "Sum": 20178.0, "Unit": "Bytes"}]
+
+	data = JSON.parse(data)
+	obj.stuff = data
+	var stuffs = []
+	var EMA = []
+	obj.name = "Number of bytes"
+	var ts = []
+	for (var i=0;i<data.length;i++){
+		timestamp = new Date(data[i].Timestamp).getTime() //* 1000//.toJSON().toString()
+		sum = data[i].Sum
+		ts.push(timestamp)
+		EMA.push(data[i].Sum)
+		stuffs.push([timestamp,sum])
+	}
+	obj.data = stuffs
+
+	EMAArray = TA.SMAverage(EMA, 6)
+	EMAObj = {}
+	EMAObj.name = "EMA 6 hours"
+	EMAObj.data = zip(ts,EMAArray)
+
+	$('#container').highcharts({
+	    chart: {
+	        type: 'line'
+	    },
+	    title: {
+	        text: 'Title'
+	    },
+	    xAxis: {
+	    	type: 'datetime',
+	    },
+	    yAxis: {
+	        title: {
+	        	text: 'Sum of bytes'
+	        }
+	    },
+	    series: [
+		    obj,
+		    EMAObj
+	    ]
+	});
+})
 
     // $('#container').highcharts({
     //     series: data
