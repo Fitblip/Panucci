@@ -21,8 +21,8 @@ function zip(arrayA, arrayB) {
 
 var obj = {}
 	$.getJSON("/static/info.json", function(data){
-
-//[{"Timestamp": "2014-04-28 15:05:00", "Sum": 16930.0, "Unit": "Bytes"}, {"Timestamp": "2014-04-28 18:25:00", "Sum": 20178.0, "Unit": "Bytes"}]
+	
+	//[{"Timestamp": "2014-04-28 15:05:00", "Sum": 16930.0, "Unit": "Bytes"}, {"Timestamp": "2014-04-28 18:25:00", "Sum": 20178.0, "Unit": "Bytes"}]
 
 	obj.stuff = data
 	var stuffs = []
@@ -30,14 +30,16 @@ var obj = {}
 	var SMA = []
 	obj.name = "Number of bytes"
 	var ts = []
+	
 	for (var i=0;i<data.length;i++){
-		timestamp = new Date(data[i].Timestamp).getTime() //* 1000//.toJSON().toString()
+		timestamp = new Date(data[i].Timestamp).getTime()
 		sum = data[i].Sum
 		ts.push(timestamp)
 		EMA.push(data[i].Sum)
 		SMA.push(data[i].Sum)
 		stuffs.push([timestamp,sum])
 	}
+
 	obj.data = stuffs
 
 	EMAArray = TA.EMAverage(EMA, 6);
@@ -69,16 +71,10 @@ var obj = {}
 	    },
 	    series: [
 		    obj,
-		    EMAObj
+		    EMAObj,
 		    SMAObj
 	    ]
 	});
 })
-
-    // $('#container').highcharts({
-    //     series: data
-    // });
-// })
-
 </script>
 </html>
