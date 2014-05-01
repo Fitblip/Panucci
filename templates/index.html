@@ -46,13 +46,15 @@ $.get("/info.json", function(data){
 
 	$('#container').highcharts({
 	    chart: {
-	        type: 'line'
+	        type: 'line',
+	        zoomType: 'x'
 	    },
 	    title: {
 	        text: 'Title'
 	    },
 	    xAxis: {
 	    	type: 'datetime',
+	    	minRange: 1 * 24 * 3600000
 	    },
 	    yAxis: {
 	        title: {
