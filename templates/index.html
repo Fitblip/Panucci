@@ -28,6 +28,7 @@ $.get("/info.json", function(data){
 	obj.stuff = data
 	var stuffs = []
 	var EMA = []
+	var SMA = []
 	obj.name = "Number of bytes"
 	var ts = []
 	for (var i=0;i<data.length;i++){
@@ -35,6 +36,7 @@ $.get("/info.json", function(data){
 		sum = data[i].Sum
 		ts.push(timestamp)
 		EMA.push(data[i].Sum)
+		SMA.push(data[i].Sum)
 		stuffs.push([timestamp,sum])
 	}
 	obj.data = stuffs
@@ -43,6 +45,11 @@ $.get("/info.json", function(data){
 	EMAObj = {}
 	EMAObj.name = "EMA 6 hours"
 	EMAObj.data = zip(ts,EMAArray)
+
+	SMAArray = TA.SMAverage(SMA, 12);
+	SMAObj = {}
+	SMAObj.name = "SMA 12 hours"
+	SMAObj.data = zip(ts,SMAArray)
 
 	$('#container').highcharts({
 	    chart: {
@@ -64,6 +71,7 @@ $.get("/info.json", function(data){
 	    series: [
 		    obj,
 		    EMAObj
+		    SMAObj
 	    ]
 	});
 })
