@@ -20,11 +20,10 @@ function zip(arrayA, arrayB) {
 }
 
 var obj = {}
-$.get("/info.json", function(data){
+	$.getJSON("/static/info.json", function(data){
 
 //[{"Timestamp": "2014-04-28 15:05:00", "Sum": 16930.0, "Unit": "Bytes"}, {"Timestamp": "2014-04-28 18:25:00", "Sum": 20178.0, "Unit": "Bytes"}]
 
-	data = JSON.parse(data)
 	obj.stuff = data
 	var stuffs = []
 	var EMA = []
