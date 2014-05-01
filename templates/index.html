@@ -39,7 +39,7 @@ $.get("/info.json", function(data){
 	}
 	obj.data = stuffs
 
-	EMAArray = TA.SMAverage(EMA, 6)
+	EMAArray = TA.EMAverage(EMA, 6);
 	EMAObj = {}
 	EMAObj.name = "EMA 6 hours"
 	EMAObj.data = zip(ts,EMAArray)
